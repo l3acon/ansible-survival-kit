@@ -1,0 +1,7 @@
+---
+- name: Test Ansible Lint Island Challenge
+  hosts: localhost
+  tasks:
+    - name: Display the debug
+      debug:
+          msg: This is an Ansible Lint Challenge

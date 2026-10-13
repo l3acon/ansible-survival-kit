@@ -1,0 +1,9 @@
+---
+- name: Filter Water Ansible Island Challenge
+  hosts: localhost
+  vars:
+    secret_message: QW5zaWJsZSBpcyBhd2Vzb21lIQ==
+  tasks:
+    - name: Display the Challenge word
+      ansible.builtin.debug:
+        msg: "Filter Water challenge word is : {{ secret_message }}"
