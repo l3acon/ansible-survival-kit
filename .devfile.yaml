@@ -1,0 +1,45 @@
+schemaVersion: 2.2.0
+metadata:
+  name: ansible-survival-kit
+  displayName: Ansible Survival Kit — Ansible Island Adventure
+  description: Participant workspace with Ansible Development Tools for the Island challenges
+
+components:
+  - name: ansible-tools
+    container:
+      # Same public, digest-pinned runtime as the instructor toolkit.
+      image: ghcr.io/ansible/ansible-devspaces@sha256:12db1db91682f48b9a853d255a7294e3b903d85a4c34ddc6e47e42a9bcc21ecf
+      memoryLimit: 4Gi
+      memoryRequest: 1Gi
+      cpuLimit: 2000m
+      cpuRequest: 500m
+      mountSources: true
+      sourceMapping: /projects
+
+commands:
+  - id: setup-ansible-collections
+    exec:
+      component: ansible-tools
+      commandLine: >-
+        ansible-galaxy collection install
+        -p /home/user/.ansible/collections
+        kubernetes.core:6.2.0 community.general:11.4.0 ansible.posix:2.1.0
+      workingDir: /projects/ansible-survival-kit
+      label: Install lab collections
+      group:
+        kind: build
+        isDefault: false
+
+  - id: hello-world
+    exec:
+      component: ansible-tools
+      commandLine: ansible-playbook hello-world.yml
+      workingDir: /projects/ansible-survival-kit
+      label: Run Hello World
+      group:
+        kind: run
+        isDefault: true
+
+events:
+  postStart:
+    - setup-ansible-collections
